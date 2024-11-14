@@ -431,17 +431,12 @@
     <created_date>2024/10/24 19:41:34.753</created_date>
     <modified_user>-</modified_user>
     <modified_date>2024/10/24 19:41:34.753</modified_date>
-    <key_for_session_key>H4sIAAAAAAAAAAMAAAAAAAAAAAA=</key_for_session_key>
+    <key_for_session_key>H4sIAAAAAAAA/wMAAAAAAAAAAAA=</key_for_session_key>
     <is_key_private>N</is_key_private>
   </info>
   <notepads>
   </notepads>
   <order>
-    <hop>
-      <from>JSON input</from>
-      <to>Select values</to>
-      <enabled>Y</enabled>
-    </hop>
     <hop>
       <from>Filter rows</from>
       <to>Group by</to>
@@ -463,21 +458,149 @@
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Select values</from>
-      <to>Filter rows</to>
+      <from>XML output Report</from>
+      <to>MongoDB output</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Select values</from>
+      <from>Filter rows all</from>
+      <to>XML output Report</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Filter rows all</from>
       <to>Microsoft Excel output report</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
+      <from>Filter rows all</from>
+      <to>Filter rows</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>JSON input</from>
+      <to>Select values</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
       <from>Select values</from>
-      <to>XML output Report</to>
+      <to>Regex evaluation</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Regex evaluation</from>
+      <to>Filter rows all</to>
       <enabled>Y</enabled>
     </hop>
   </order>
+  <step>
+    <name>Filter rows</name>
+    <type>FilterRows</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <send_true_to/>
+    <send_false_to/>
+    <compare>
+      <condition>
+        <negated>Y</negated>
+        <conditions>
+          <condition>
+            <negated>N</negated>
+            <leftvalue>referrer</leftvalue>
+            <function>IS NULL</function>
+            <rightvalue>referrer</rightvalue>
+          </condition>
+          <condition>
+            <negated>N</negated>
+            <operator>OR</operator>
+            <leftvalue>referrer</leftvalue>
+            <function>=</function>
+            <rightvalue/>
+            <value>
+              <name>constant</name>
+              <type>String</type>
+              <text/>
+              <length>-1</length>
+              <precision>-1</precision>
+              <isnull>Y</isnull>
+              <mask/>
+            </value>
+          </condition>
+        </conditions>
+      </condition>
+    </compare>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>752</xloc>
+      <yloc>192</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Group by</name>
+    <type>GroupBy</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <all_rows>Y</all_rows>
+    <ignore_aggregate>N</ignore_aggregate>
+    <field_ignore/>
+    <directory>%%java.io.tmpdir%%</directory>
+    <prefix>grp</prefix>
+    <add_linenr>N</add_linenr>
+    <linenr_fieldname/>
+    <give_back_row>N</give_back_row>
+    <group>
+      <field>
+        <name>referrer</name>
+      </field>
+    </group>
+    <fields>
+      <field>
+        <aggregate>visit_count</aggregate>
+        <subject>referrer</subject>
+        <type>COUNT_ANY</type>
+        <valuefield/>
+      </field>
+      <field>
+        <aggregate>avg_response_time</aggregate>
+        <subject>response_time</subject>
+        <type>AVERAGE</type>
+        <valuefield/>
+      </field>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>864</xloc>
+      <yloc>192</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
   <step>
     <name>JSON input</name>
     <type>JsonInput</type>
@@ -661,99 +784,85 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>112</xloc>
+      <xloc>64</xloc>
       <yloc>96</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
   <step>
-    <name>Select values</name>
-    <type>SelectValues</type>
+    <name>Microsoft Excel output URL_Report</name>
+    <type>ExcelOutput</type>
     <description/>
-    <distribute>N</distribute>
+    <distribute>Y</distribute>
     <custom_distribution/>
     <copies>1</copies>
     <partitioning>
       <method>none</method>
       <schema_name/>
     </partitioning>
+    <header>Y</header>
+    <footer>N</footer>
+    <encoding/>
+    <append>N</append>
+    <add_to_result_filenames>Y</add_to_result_filenames>
+    <file>
+      <name>D:\ISI\TP01_20484\PDI_Output\Excel_Reports\urls_report</name>
+      <extention>xls</extention>
+      <do_not_open_newfile_init>N</do_not_open_newfile_init>
+      <create_parent_folder>N</create_parent_folder>
+      <split>N</split>
+      <add_date>N</add_date>
+      <add_time>N</add_time>
+      <SpecifyFormat>N</SpecifyFormat>
+      <date_time_format/>
+      <sheetname>Sheet1</sheetname>
+      <autosizecolums>N</autosizecolums>
+      <nullisblank>N</nullisblank>
+      <protect_sheet>N</protect_sheet>
+      <password>Encrypted </password>
+      <splitevery>0</splitevery>
+      <usetempfiles>N</usetempfiles>
+      <tempdirectory/>
+    </file>
+    <template>
+      <enabled>N</enabled>
+      <append>N</append>
+      <filename>template.xls</filename>
+    </template>
     <fields>
       <field>
-        <name>ip_address</name>
-        <rename/>
-      </field>
-      <field>
-        <name>timestamp</name>
-        <rename/>
-      </field>
-      <field>
-        <name>request_method</name>
-        <rename/>
-      </field>
-      <field>
-        <name>status_code</name>
-        <rename/>
-      </field>
-      <field>
-        <name>response_time</name>
-        <rename/>
-      </field>
-      <field>
-        <name>user_agent</name>
-        <rename/>
-      </field>
-      <field>
         <name>referrer</name>
-        <rename/>
+        <type>None</type>
+        <format/>
       </field>
       <field>
-        <name>bytes_sent</name>
-        <rename/>
+        <name>visit_count</name>
+        <type>None</type>
+        <format/>
       </field>
       <field>
-        <name>referer_domain</name>
-        <rename/>
-      </field>
-      <field>
-        <name>server_name</name>
-        <rename/>
-      </field>
-      <select_unspecified>N</select_unspecified>
-      <meta>
-        <name>timestamp</name>
-        <rename>timestamp</rename>
-        <type>Date</type>
-        <length>-2</length>
-        <precision>-2</precision>
-        <conversion_mask>MM/dd/yyyy HH:mm:ss</conversion_mask>
-        <date_format_lenient>false</date_format_lenient>
-        <date_format_locale/>
-        <date_format_timezone/>
-        <lenient_string_to_number>false</lenient_string_to_number>
-        <encoding/>
-        <decimal_symbol/>
-        <grouping_symbol/>
-        <currency_symbol/>
-        <storage_type/>
-      </meta>
-      <meta>
-        <name>response_time</name>
-        <rename>response_time</rename>
+        <name>avg_response_time</name>
         <type>Number</type>
-        <length>-2</length>
-        <precision>-2</precision>
-        <conversion_mask>0.000</conversion_mask>
-        <date_format_lenient>false</date_format_lenient>
-        <date_format_locale/>
-        <date_format_timezone/>
-        <lenient_string_to_number>false</lenient_string_to_number>
-        <encoding/>
-        <decimal_symbol/>
-        <grouping_symbol/>
-        <currency_symbol/>
-        <storage_type/>
-      </meta>
+        <format>0.000</format>
+      </field>
     </fields>
+    <custom>
+      <header_font_name>arial</header_font_name>
+      <header_font_size>10</header_font_size>
+      <header_font_bold>N</header_font_bold>
+      <header_font_italic>N</header_font_italic>
+      <header_font_underline>no</header_font_underline>
+      <header_font_orientation>horizontal</header_font_orientation>
+      <header_font_color>black</header_font_color>
+      <header_background_color>none</header_background_color>
+      <header_row_height>255</header_row_height>
+      <header_alignment>left</header_alignment>
+      <header_image/>
+      <row_font_name>arial</row_font_name>
+      <row_font_size>10</row_font_size>
+      <row_font_color>black</row_font_color>
+      <row_background_color>none</row_background_color>
+    </custom>
     <attributes/>
     <cluster_schema/>
     <remotesteps>
@@ -763,8 +872,8 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>240</xloc>
-      <yloc>96</yloc>
+      <xloc>1232</xloc>
+      <yloc>192</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -886,14 +995,14 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>368</xloc>
+      <xloc>768</xloc>
       <yloc>96</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
   <step>
-    <name>Filter rows</name>
-    <type>FilterRows</type>
+    <name>MongoDB output</name>
+    <type>MongoDbOutput</type>
     <description/>
     <distribute>Y</distribute>
     <custom_distribution/>
@@ -902,37 +1011,133 @@
       <method>none</method>
       <schema_name/>
     </partitioning>
-    <send_true_to/>
-    <send_false_to/>
-    <compare>
-      <condition>
-        <negated>Y</negated>
-        <conditions>
-          <condition>
-            <negated>N</negated>
-            <leftvalue>referrer</leftvalue>
-            <function>IS NULL</function>
-            <rightvalue>referrer</rightvalue>
-          </condition>
-          <condition>
-            <negated>N</negated>
-            <operator>OR</operator>
-            <leftvalue>referrer</leftvalue>
-            <function>=</function>
-            <rightvalue/>
-            <value>
-              <name>constant</name>
-              <type>String</type>
-              <text/>
-              <length>-1</length>
-              <precision>-1</precision>
-              <isnull>Y</isnull>
-              <mask/>
-            </value>
-          </condition>
-        </conditions>
-      </condition>
-    </compare>
+    <use_connection_string>N</use_connection_string>
+    <use_legacy_options>Y</use_legacy_options>
+    <connection_string>Encrypted </connection_string>
+    <mongo_host>localhost</mongo_host>
+    <mongo_port>27017</mongo_port>
+    <use_all_replica_members>N</use_all_replica_members>
+    <auth_mech/>
+    <auth_kerberos>N</auth_kerberos>
+    <mongo_db>WebService_DB</mongo_db>
+    <mongo_collection>dados_json</mongo_collection>
+    <batch_insert_size>100</batch_insert_size>
+    <connect_timeout/>
+    <socket_timeout/>
+    <use_ssl_socket_factory>N</use_ssl_socket_factory>
+    <read_preference>primary</read_preference>
+    <write_concern/>
+    <w_timeout/>
+    <journaled_writes>N</journaled_writes>
+    <truncate>N</truncate>
+    <update>N</update>
+    <upsert>N</upsert>
+    <multi>N</multi>
+    <modifier_update>N</modifier_update>
+    <write_retries>5</write_retries>
+    <write_retry_delay>10</write_retry_delay>
+    <mongo_fields>
+      <mongo_field>
+        <incoming_field_name>ip_address</incoming_field_name>
+        <mongo_doc_path/>
+        <use_incoming_field_name_as_mongo_field_name>Y</use_incoming_field_name_as_mongo_field_name>
+        <update_match_field>N</update_match_field>
+        <modifier_update_operation>N/A</modifier_update_operation>
+        <modifier_policy>Insert&amp;Update</modifier_policy>
+        <json_field>N</json_field>
+        <allow_null>N</allow_null>
+      </mongo_field>
+      <mongo_field>
+        <incoming_field_name>timestamp</incoming_field_name>
+        <mongo_doc_path/>
+        <use_incoming_field_name_as_mongo_field_name>Y</use_incoming_field_name_as_mongo_field_name>
+        <update_match_field>N</update_match_field>
+        <modifier_update_operation>N/A</modifier_update_operation>
+        <modifier_policy>Insert&amp;Update</modifier_policy>
+        <json_field>N</json_field>
+        <allow_null>N</allow_null>
+      </mongo_field>
+      <mongo_field>
+        <incoming_field_name>request_method</incoming_field_name>
+        <mongo_doc_path/>
+        <use_incoming_field_name_as_mongo_field_name>Y</use_incoming_field_name_as_mongo_field_name>
+        <update_match_field>N</update_match_field>
+        <modifier_update_operation>N/A</modifier_update_operation>
+        <modifier_policy>Insert&amp;Update</modifier_policy>
+        <json_field>N</json_field>
+        <allow_null>N</allow_null>
+      </mongo_field>
+      <mongo_field>
+        <incoming_field_name>status_code</incoming_field_name>
+        <mongo_doc_path/>
+        <use_incoming_field_name_as_mongo_field_name>Y</use_incoming_field_name_as_mongo_field_name>
+        <update_match_field>N</update_match_field>
+        <modifier_update_operation>N/A</modifier_update_operation>
+        <modifier_policy>Insert&amp;Update</modifier_policy>
+        <json_field>N</json_field>
+        <allow_null>N</allow_null>
+      </mongo_field>
+      <mongo_field>
+        <incoming_field_name>response_time</incoming_field_name>
+        <mongo_doc_path/>
+        <use_incoming_field_name_as_mongo_field_name>Y</use_incoming_field_name_as_mongo_field_name>
+        <update_match_field>N</update_match_field>
+        <modifier_update_operation>N/A</modifier_update_operation>
+        <modifier_policy>Insert&amp;Update</modifier_policy>
+        <json_field>N</json_field>
+        <allow_null>N</allow_null>
+      </mongo_field>
+      <mongo_field>
+        <incoming_field_name>user_agent</incoming_field_name>
+        <mongo_doc_path/>
+        <use_incoming_field_name_as_mongo_field_name>Y</use_incoming_field_name_as_mongo_field_name>
+        <update_match_field>N</update_match_field>
+        <modifier_update_operation>N/A</modifier_update_operation>
+        <modifier_policy>Insert&amp;Update</modifier_policy>
+        <json_field>N</json_field>
+        <allow_null>N</allow_null>
+      </mongo_field>
+      <mongo_field>
+        <incoming_field_name>referrer</incoming_field_name>
+        <mongo_doc_path/>
+        <use_incoming_field_name_as_mongo_field_name>Y</use_incoming_field_name_as_mongo_field_name>
+        <update_match_field>N</update_match_field>
+        <modifier_update_operation>N/A</modifier_update_operation>
+        <modifier_policy>Insert&amp;Update</modifier_policy>
+        <json_field>N</json_field>
+        <allow_null>N</allow_null>
+      </mongo_field>
+      <mongo_field>
+        <incoming_field_name>bytes_sent</incoming_field_name>
+        <mongo_doc_path/>
+        <use_incoming_field_name_as_mongo_field_name>Y</use_incoming_field_name_as_mongo_field_name>
+        <update_match_field>N</update_match_field>
+        <modifier_update_operation>N/A</modifier_update_operation>
+        <modifier_policy>Insert&amp;Update</modifier_policy>
+        <json_field>N</json_field>
+        <allow_null>N</allow_null>
+      </mongo_field>
+      <mongo_field>
+        <incoming_field_name>referer_domain</incoming_field_name>
+        <mongo_doc_path/>
+        <use_incoming_field_name_as_mongo_field_name>Y</use_incoming_field_name_as_mongo_field_name>
+        <update_match_field>N</update_match_field>
+        <modifier_update_operation>N/A</modifier_update_operation>
+        <modifier_policy>Insert&amp;Update</modifier_policy>
+        <json_field>N</json_field>
+        <allow_null>N</allow_null>
+      </mongo_field>
+      <mongo_field>
+        <incoming_field_name>server_name</incoming_field_name>
+        <mongo_doc_path/>
+        <use_incoming_field_name_as_mongo_field_name>Y</use_incoming_field_name_as_mongo_field_name>
+        <update_match_field>N</update_match_field>
+        <modifier_update_operation>N/A</modifier_update_operation>
+        <modifier_policy>Insert&amp;Update</modifier_policy>
+        <json_field>N</json_field>
+        <allow_null>N</allow_null>
+      </mongo_field>
+    </mongo_fields>
     <attributes/>
     <cluster_schema/>
     <remotesteps>
@@ -942,48 +1147,88 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>240</xloc>
-      <yloc>192</yloc>
+      <xloc>992</xloc>
+      <yloc>16</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
   <step>
-    <name>Group by</name>
-    <type>GroupBy</type>
+    <name>Select values</name>
+    <type>SelectValues</type>
     <description/>
-    <distribute>Y</distribute>
+    <distribute>N</distribute>
     <custom_distribution/>
     <copies>1</copies>
     <partitioning>
       <method>none</method>
       <schema_name/>
     </partitioning>
-    <all_rows>Y</all_rows>
-    <ignore_aggregate>N</ignore_aggregate>
-    <field_ignore/>
-    <directory>%%java.io.tmpdir%%</directory>
-    <prefix>grp</prefix>
-    <add_linenr>N</add_linenr>
-    <linenr_fieldname/>
-    <give_back_row>N</give_back_row>
-    <group>
+    <fields>
+      <field>
+        <name>ip_address</name>
+      </field>
+      <field>
+        <name>timestamp</name>
+      </field>
+      <field>
+        <name>request_method</name>
+      </field>
+      <field>
+        <name>status_code</name>
+      </field>
+      <field>
+        <name>response_time</name>
+      </field>
+      <field>
+        <name>user_agent</name>
+      </field>
       <field>
         <name>referrer</name>
       </field>
-    </group>
-    <fields>
       <field>
-        <aggregate>visit_count</aggregate>
-        <subject>referrer</subject>
-        <type>COUNT_ANY</type>
-        <valuefield/>
+        <name>bytes_sent</name>
       </field>
       <field>
-        <aggregate>avg_response_time</aggregate>
-        <subject>response_time</subject>
-        <type>AVERAGE</type>
-        <valuefield/>
+        <name>referer_domain</name>
       </field>
+      <field>
+        <name>server_name</name>
+      </field>
+      <select_unspecified>N</select_unspecified>
+      <meta>
+        <name>timestamp</name>
+        <rename>timestamp</rename>
+        <type>Date</type>
+        <length>-2</length>
+        <precision>-2</precision>
+        <conversion_mask>MM/dd/yyyy HH:mm:ss</conversion_mask>
+        <date_format_lenient>false</date_format_lenient>
+        <date_format_locale/>
+        <date_format_timezone/>
+        <lenient_string_to_number>false</lenient_string_to_number>
+        <encoding/>
+        <decimal_symbol/>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <storage_type/>
+      </meta>
+      <meta>
+        <name>response_time</name>
+        <rename>response_time</rename>
+        <type>Number</type>
+        <length>-2</length>
+        <precision>-2</precision>
+        <conversion_mask>0.000</conversion_mask>
+        <date_format_lenient>false</date_format_lenient>
+        <date_format_locale/>
+        <date_format_timezone/>
+        <lenient_string_to_number>false</lenient_string_to_number>
+        <encoding/>
+        <decimal_symbol/>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <storage_type/>
+      </meta>
     </fields>
     <attributes/>
     <cluster_schema/>
@@ -994,8 +1239,8 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>352</xloc>
-      <yloc>192</yloc>
+      <xloc>240</xloc>
+      <yloc>96</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -1044,181 +1289,8 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>448</xloc>
+      <xloc>960</xloc>
       <yloc>192</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Microsoft Excel output URL_Report</name>
-    <type>ExcelOutput</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <header>Y</header>
-    <footer>N</footer>
-    <encoding/>
-    <append>N</append>
-    <add_to_result_filenames>Y</add_to_result_filenames>
-    <file>
-      <name>D:\ISI\TP01_20484\PDI_Output\Excel_Reports\urls_report</name>
-      <extention>xls</extention>
-      <do_not_open_newfile_init>N</do_not_open_newfile_init>
-      <create_parent_folder>N</create_parent_folder>
-      <split>N</split>
-      <add_date>N</add_date>
-      <add_time>N</add_time>
-      <SpecifyFormat>N</SpecifyFormat>
-      <date_time_format/>
-      <sheetname>Sheet1</sheetname>
-      <autosizecolums>N</autosizecolums>
-      <nullisblank>N</nullisblank>
-      <protect_sheet>N</protect_sheet>
-      <password>Encrypted </password>
-      <splitevery>0</splitevery>
-      <usetempfiles>N</usetempfiles>
-      <tempdirectory/>
-    </file>
-    <template>
-      <enabled>N</enabled>
-      <append>N</append>
-      <filename>template.xls</filename>
-    </template>
-    <fields>
-      <field>
-        <name>referrer</name>
-        <type>None</type>
-        <format/>
-      </field>
-      <field>
-        <name>visit_count</name>
-        <type>None</type>
-        <format/>
-      </field>
-      <field>
-        <name>avg_response_time</name>
-        <type>Number</type>
-        <format>0.000</format>
-      </field>
-    </fields>
-    <custom>
-      <header_font_name>arial</header_font_name>
-      <header_font_size>10</header_font_size>
-      <header_font_bold>N</header_font_bold>
-      <header_font_italic>N</header_font_italic>
-      <header_font_underline>no</header_font_underline>
-      <header_font_orientation>horizontal</header_font_orientation>
-      <header_font_color>black</header_font_color>
-      <header_background_color>none</header_background_color>
-      <header_row_height>255</header_row_height>
-      <header_alignment>left</header_alignment>
-      <header_image/>
-      <row_font_name>arial</row_font_name>
-      <row_font_size>10</row_font_size>
-      <row_font_color>black</row_font_color>
-      <row_background_color>none</row_background_color>
-    </custom>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>592</xloc>
-      <yloc>192</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>XML output URL Report</name>
-    <type>XMLOutput</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <encoding>UTF-8</encoding>
-    <name_space/>
-    <xml_main_element>Rows</xml_main_element>
-    <xml_repeat_element>Row</xml_repeat_element>
-    <file>
-      <name>D:\ISI\TP01_20484\PDI_Output\XML_Reports\urls_report</name>
-      <extention>xml</extention>
-      <servlet_output>N</servlet_output>
-      <do_not_open_newfile_init>N</do_not_open_newfile_init>
-      <split>N</split>
-      <add_date>N</add_date>
-      <add_time>N</add_time>
-      <SpecifyFormat>N</SpecifyFormat>
-      <omit_null_values>N</omit_null_values>
-      <date_time_format/>
-      <add_to_result_filenames>N</add_to_result_filenames>
-      <zipped>N</zipped>
-      <splitevery>0</splitevery>
-    </file>
-    <fields>
-      <field>
-        <content_type>Element</content_type>
-        <name>referrer</name>
-        <element/>
-        <type>String</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <nullif/>
-        <length>-1</length>
-        <precision>-1</precision>
-      </field>
-      <field>
-        <content_type>Element</content_type>
-        <name>visit_count</name>
-        <element/>
-        <type>Integer</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <nullif/>
-        <length>10</length>
-        <precision>0</precision>
-      </field>
-      <field>
-        <content_type>Element</content_type>
-        <name>avg_response_time</name>
-        <element/>
-        <type>Number</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <nullif/>
-        <length>-1</length>
-        <precision>-1</precision>
-      </field>
-    </fields>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>448</xloc>
-      <yloc>304</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -1393,8 +1465,236 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>368</xloc>
+      <xloc>800</xloc>
       <yloc>16</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>XML output URL Report</name>
+    <type>XMLOutput</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <encoding>UTF-8</encoding>
+    <name_space/>
+    <xml_main_element>Rows</xml_main_element>
+    <xml_repeat_element>Row</xml_repeat_element>
+    <file>
+      <name>D:\ISI\TP01_20484\PDI_Output\XML_Reports\urls_report</name>
+      <extention>xml</extention>
+      <servlet_output>N</servlet_output>
+      <do_not_open_newfile_init>N</do_not_open_newfile_init>
+      <split>N</split>
+      <add_date>N</add_date>
+      <add_time>N</add_time>
+      <SpecifyFormat>N</SpecifyFormat>
+      <omit_null_values>N</omit_null_values>
+      <date_time_format/>
+      <add_to_result_filenames>N</add_to_result_filenames>
+      <zipped>N</zipped>
+      <splitevery>0</splitevery>
+    </file>
+    <fields>
+      <field>
+        <content_type>Element</content_type>
+        <name>referrer</name>
+        <element/>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <content_type>Element</content_type>
+        <name>visit_count</name>
+        <element/>
+        <type>Integer</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <length>10</length>
+        <precision>0</precision>
+      </field>
+      <field>
+        <content_type>Element</content_type>
+        <name>avg_response_time</name>
+        <element/>
+        <type>Number</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>1120</xloc>
+      <yloc>304</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Filter rows all</name>
+    <type>FilterRows</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <send_true_to/>
+    <send_false_to/>
+    <compare>
+      <condition>
+        <negated>N</negated>
+        <conditions>
+          <condition>
+            <negated>N</negated>
+            <leftvalue>ip_address</leftvalue>
+            <function>IS NOT NULL</function>
+            <rightvalue/>
+          </condition>
+          <condition>
+            <negated>N</negated>
+            <operator>AND</operator>
+            <leftvalue>timestamp</leftvalue>
+            <function>IS NOT NULL</function>
+            <rightvalue/>
+          </condition>
+          <condition>
+            <negated>N</negated>
+            <operator>AND</operator>
+            <leftvalue>request_method</leftvalue>
+            <function>IS NOT NULL</function>
+            <rightvalue/>
+          </condition>
+          <condition>
+            <negated>N</negated>
+            <operator>AND</operator>
+            <leftvalue>status_code</leftvalue>
+            <function>IS NOT NULL</function>
+            <rightvalue/>
+          </condition>
+          <condition>
+            <negated>N</negated>
+            <operator>AND</operator>
+            <leftvalue>response_time</leftvalue>
+            <function>IS NOT NULL</function>
+            <rightvalue/>
+          </condition>
+          <condition>
+            <negated>N</negated>
+            <operator>AND</operator>
+            <leftvalue>user_agent</leftvalue>
+            <function>IS NOT NULL</function>
+            <rightvalue/>
+          </condition>
+          <condition>
+            <negated>N</negated>
+            <operator>AND</operator>
+            <leftvalue>referrer</leftvalue>
+            <function>IS NOT NULL</function>
+            <rightvalue/>
+          </condition>
+          <condition>
+            <negated>N</negated>
+            <operator>AND</operator>
+            <leftvalue>bytes_sent</leftvalue>
+            <function>IS NOT NULL</function>
+            <rightvalue/>
+          </condition>
+          <condition>
+            <negated>N</negated>
+            <operator>AND</operator>
+            <leftvalue>referer_domain</leftvalue>
+            <function>IS NOT NULL</function>
+            <rightvalue/>
+          </condition>
+          <condition>
+            <negated>N</negated>
+            <operator>AND</operator>
+            <leftvalue>server_name</leftvalue>
+            <function>IS NOT NULL</function>
+            <rightvalue/>
+          </condition>
+        </conditions>
+      </condition>
+    </compare>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>560</xloc>
+      <yloc>96</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Regex evaluation</name>
+    <type>RegexEval</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <script>\b(?:\d{1,3}\.){3}\d{1,3}\b</script>
+    <matcher>ip_address</matcher>
+    <resultfieldname>is_valid_ip</resultfieldname>
+    <usevar>N</usevar>
+    <allowcapturegroups>N</allowcapturegroups>
+    <replacefields>Y</replacefields>
+    <canoneq>N</canoneq>
+    <caseinsensitive>N</caseinsensitive>
+    <comment>N</comment>
+    <dotall>N</dotall>
+    <multiline>N</multiline>
+    <unicode>N</unicode>
+    <unix>N</unix>
+    <fields>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>400</xloc>
+      <yloc>96</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
